@@ -1,26 +1,65 @@
+<head>
+  <style>
+    /* 代码块容器样式：背景、内边距、边框 */
+    .sourceCode {
+      background-color: #f5f5f5; /* 浅灰背景 */
+      padding: 15px;
+      border-radius: 6px; /* 圆角 */
+      margin: 10px 0;
+      overflow-x: auto; /* 横向滚动（防止代码过长溢出） */
+    }
+    /* 代码文本样式：等宽字体、大小 */
+    .sourceCode pre code {
+      font-family: 'Consolas', 'Monaco', monospace; /* 等宽字体 */
+      font-size: 14px;
+      line-height: 2.5;
+    }
+    /* Python特定样式：关键字、注释、字符串 */
+    .sourceCode.python .kw { color: #006699; font-weight: bold; } /* 关键字（print、class等） */
+    .sourceCode.python .co { color: #009900; font-style: italic; } /* 注释（# 开头） */
+    .sourceCode.python .st { color: #cc0000; } /* 字符串（''或""包裹） */
+    .sourceCode.python .dv { color: #ff6600; } /* 数字（整数、浮点数） */
+  </style>
+</head>
 <h1 id="第一章---数据结构和算法">第一章 - 数据结构和算法</h1>
 <h2 id="将序列分解为单独的变量">1.1 将序列分解为单独的变量</h2>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unpack tuple</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> p</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x, y)  <span class="co"># 4, 5</span></span></code></pre></div>
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 变量数量与结构要与列表相吻合</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 只要对象是iterable，就可以使用unpack操作</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="st">&#39;ACME&#39;</span>, <span class="dv">50</span>, <span class="fl">91.1</span>, (<span class="dv">2012</span>, <span class="dv">12</span>, <span class="dv">21</span>)]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>name, _, price, date <span class="op">=</span> data  <span class="co"># 使用下划线这类变量名，即约定这个变量是想要丢弃的</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(name, price, date)  <span class="co"># ACME 91.1 (2012, 12, 21)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 变量数量与结构要与列表相吻合</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="st">&#39;ACME&#39;</span>, <span class="dv">50</span>, <span class="fl">91.1</span>, (<span class="dv">2012</span>, <span class="dv">12</span>, <span class="dv">21</span>)]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>name, shares, price, date <span class="op">=</span> data</span>
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 如果数量不匹配，将得到ValueError</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x, y, z <span class="op">=</span> p</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(name, shares, price, date)  <span class="co"># &#39;ACME&#39;, 50, 91.1, (2012, 12, 21)</span></span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ValueError: not enough values to unpack (expected 3, got 2)</span></span></code></pre></div>
+<h2 id="从任意长度的可迭代对象中分解元素">1.2
+从任意长度的可迭代对象中分解元素</h2>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 如果数量不匹配，将得到ValueError</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x, y, z <span class="op">=</span> p</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ValueError: need more than 2 values to unpack</span></span></code></pre></div>
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>user_record <span class="op">=</span> [</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Dave&#39;</span>, <span class="st">&#39;dave@example.com&#39;</span>, <span class="st">&#39;13311122332&#39;</span>, <span class="st">&#39;15821203400&#39;</span>, <span class="st">&#39;50922234&#39;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>name, email, <span class="op">*</span>phone_numbers <span class="op">=</span> user_record</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(name, email)  <span class="co"># Dave dave@example.com</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phone_numbers)  <span class="co"># [&#39;13311122332&#39;, &#39;15821203400&#39;, &#39;50922234&#39;]</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 只要对象是iterable，就可以使用unpack操作</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="st">&#39;Hello&#39;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>a, _, c, _, e <span class="op">=</span> s  <span class="co"># 使用下划线这类变量名，即约定这个变量是想要丢弃的</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a,c,e)  <span class="co"># H, l, o</span></span></code></pre></div>
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> [</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;foo&#39;</span>, <span class="dv">1</span>, <span class="dv">2</span>},</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;bar&#39;</span>, <span class="st">&#39;hello&#39;</span>},</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;foo&#39;</span>, <span class="dv">3</span>, <span class="dv">4</span>},</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag, <span class="op">*</span>args <span class="kw">in</span> records:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tag <span class="op">==</span> <span class="st">&#39;foo&#39;</span>:</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(args)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&#39;bar&#39;</span>, args)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">[2, 1]</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">bar [&#39;bar&#39;]</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">[3, 4]</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span></code></pre></div>
